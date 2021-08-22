@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_TopDownCombat/Scenes/InitialScreen.unity
+    guid: 00ddf4ebcb26f1448835e0d22d91a392
+  - enabled: 1
+    path: Assets/_TopDownCombat/Scenes/CombatScene.unity
+    guid: 100832359bb26804b9ac94730ccfe13d
+  - enabled: 1
+    path: Assets/_TopDownCombat/Scenes/LoadingScreen.unity
+    guid: 0afd1bdd996e5f746bfbf554f1311d3b
   m_configObjects: {}

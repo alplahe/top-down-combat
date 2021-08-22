@@ -11,7 +11,7 @@ namespace TopDownCombat
     [SerializeField] private List<HierarchyHeader> headerGOs;
     [SerializeField] private List<Transform> headerChildrenGOs;
 
-    private void Start()
+    public void Init()
     {
       AssignHeaderGOs();
       DetachAllHeaders();
