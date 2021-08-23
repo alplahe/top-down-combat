@@ -21,7 +21,12 @@ namespace LoadingSystem
       FlowManager flowManager = FlowManager.Instance.GetComponent<FlowManager>();
       if (flowManager != null)
       {
+        Debug.Log("flowManager is NOT NULL!");
         sceneToLoad = flowManager.sceneToLoad;
+      }
+      else
+      {
+        Debug.Log("flowManager is NULL!");
       }
 
       LoadScene();
@@ -29,7 +34,12 @@ namespace LoadingSystem
 
     void LoadScene()
     {
-      if (!CheckScene(sceneToLoad.ToString())) return;
+      if (!CheckScene(sceneToLoad.ToString()))
+      {
+        Debug.Log("The scene named \"" + sceneToLoad.ToString() + "\" does NOT EXIST!" +
+          " Check the SceneToLoad enum list.");
+        return;
+      }
 
       GC.Collect();
       SceneManager.LoadSceneAsync(sceneToLoad.ToString());

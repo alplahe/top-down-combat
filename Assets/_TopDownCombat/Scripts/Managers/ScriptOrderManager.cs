@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LoadingSystem;
+using UnityEditor;
 
 namespace TopDownCombat
 {
@@ -20,7 +21,7 @@ namespace TopDownCombat
 
     private void Start()
     {
-      if(hierarchyManager == null)
+      if (hierarchyManager == null)
       {
         Debug.Log("HierarchyManager is NULL!");
       }
@@ -32,6 +33,21 @@ namespace TopDownCombat
       if(flowManager == null)
       {
         Debug.Log("FlowManager is NULL!");
+        flowManager = GameObject.Find("FlowManager").GetComponent<FlowManager>();
+        flowManager.Init();
+        flowManager = FlowManager.Instance.GetComponent<FlowManager>();
+        Debug.Log("flowManager: " + flowManager);
+        //EditorGUIUtility.PingObject(flowManager.gameObject);
+
+        if (flowManager == null)
+        {
+          Debug.Log("FlowManager is REALLY NULL!");
+          flowManager = GameObject.Find("FlowManager").GetComponent<FlowManager>();
+        }
+        else
+        {
+          flowManager.Init();
+        }
       }
       else
       {

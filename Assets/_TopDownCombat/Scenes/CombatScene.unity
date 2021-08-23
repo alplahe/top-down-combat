@@ -131,6 +131,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1132779556}
     m_Modifications:
     - target: {fileID: 2932919394143810153, guid: 38ac613939f754e428236d886f694de2, type: 3}
+      propertyPath: flowManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932919394143810153, guid: 38ac613939f754e428236d886f694de2, type: 3}
       propertyPath: hierarchyManager
       value: 
       objectReference: {fileID: 1100608339}

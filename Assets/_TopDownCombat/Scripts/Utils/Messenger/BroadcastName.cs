@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 using UnityEngine.Events;
+using LoadingSystem;
+using TopDownCombat.UI;
 
 // How to search where a broadcast is invoked:
 // 1. Ctrl + Shift + F: search in all the project
@@ -45,6 +47,9 @@ namespace TopDownCombat
       public static string prefix = "Game_";
 
       public static string OnGameOver = prefix + "OnGameOver";
+      public static string OnReturnToInitialScreen = prefix + "OnReturnToInitialScreen";
+      public static string OnGameApplicationQuit = prefix + "OnGameApplicationQuit";
+      public static string OnPlayGame = prefix + "OnPlayGame";
     }
   }
 }

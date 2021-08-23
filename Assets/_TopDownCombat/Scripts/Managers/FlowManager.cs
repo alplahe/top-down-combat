@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TopDownCombat;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +9,7 @@ namespace LoadingSystem
 {
   public enum SceneToLoad
   {
-    Init,
+    InitialScreen,
     Menu,
     CombatScene
   }
@@ -30,7 +32,8 @@ namespace LoadingSystem
     public void Init()
     {
       InitSingleton();
-      GotoCombatScene();
+      AddListeners();
+      //GotoCombatScene();
     }
 
     void InitSingleton()
@@ -49,9 +52,54 @@ namespace LoadingSystem
     }
     #endregion
 
+    #region Listeners
+    private void AddListeners()
+    {
+      Messenger.AddListener(BroadcastName.Game.OnPlayGame, OnPlayGame);
+      Messenger.AddListener(BroadcastName.Game.OnGameApplicationQuit, OnGameApplicationQuit);
+      Messenger.AddListener(BroadcastName.Game.OnReturnToInitialScreen, OnReturnToInitialScreen);
+    }
+
+    private void RemoveListeners()
+    {
+      Messenger.RemoveListener(BroadcastName.Game.OnPlayGame, OnPlayGame);
+      Messenger.RemoveListener(BroadcastName.Game.OnGameApplicationQuit, OnGameApplicationQuit);
+      Messenger.RemoveListener(BroadcastName.Game.OnReturnToInitialScreen, OnReturnToInitialScreen);
+    }
+
+    private void OnPlayGame()
+    {
+      Debug.Log("FlowManager. OnPlayGame");
+      GotoCombatScene();
+    }
+
+    private void OnGameApplicationQuit()
+    {
+      Debug.Log("FlowManager. OnGameApplicationQuit");
+      Application.Quit();
+    }
+
+    private void OnReturnToInitialScreen()
+    {
+      Debug.Log("GameManager. OnReturnToInitialScreen");
+      GotoInit();
+    }
+
+    private void OnDestroy()
+    {
+      RemoveListeners();
+    }
+    #endregion
+
+    private void Update()
+    {
+      if (Input.GetKeyDown(KeyCode.Escape))
+        Messenger.Broadcast(BroadcastName.Game.OnReturnToInitialScreen);
+    }
+
     void GotoInit()
     {
-      sceneToLoad = SceneToLoad.Init;
+      sceneToLoad = SceneToLoad.InitialScreen;
       LoadLoadingScreenScene();
     }
 
@@ -70,6 +118,7 @@ namespace LoadingSystem
     void LoadLoadingScreenScene()
     {
       Debug.Log("LoadLoadingScreenScene");
+      //RemoveListeners();
       SceneManager.LoadScene("LoadingScreen");
     }
   }
