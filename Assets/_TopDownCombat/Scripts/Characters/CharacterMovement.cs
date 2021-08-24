@@ -12,12 +12,17 @@ namespace TopDownCombat.Characters
     NPC
   }
 
-  public class PlayerMovement : MonoBehaviour
+  public class CharacterMovement : MonoBehaviour
   {
     [SerializeField] private Transform target;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private CharacterType characterType;
 
+    [Space]
+    [SerializeField] private Material playerMaterial;
+    [SerializeField] private Material NPCMaterial;
+
+    [Space]
     [SerializeField, Range(0, 10)] private float speed;
     [SerializeField] private float angularSpeed;
 
@@ -34,6 +39,16 @@ namespace TopDownCombat.Characters
     {
       agent.speed = speed;
       agent.angularSpeed = angularSpeed;
+
+      if (characterType == CharacterType.NPC)
+      {
+        SetNPCBehaviour();
+        return;
+      }
+      else if (characterType == CharacterType.Player)
+      {
+        SetPlayerBehaviour();
+      }
     }
 
     private void Update()
@@ -52,21 +67,31 @@ namespace TopDownCombat.Characters
     }
 
     #region Characters
-    private void DoNPCBehaviour()
+    private void SetNPCBehaviour()
     {
       gameObject.tag = characterType.ToString();
       gameObject.name = characterType.ToString();
+    }
 
+    private void DoNPCBehaviour()
+    {
       agent.isStopped = false;
       agent.SetDestination(target.position);
     }
 
-    private void DoPlayerBehaviour()
+    private void SetPlayerBehaviour()
     {
       gameObject.tag = characterType.ToString();
       gameObject.name = characterType.ToString();
 
-      agent.isStopped = true;
+      if (agent.isOnNavMesh)
+      {
+        agent.isStopped = true;
+      }
+    }
+
+    private void DoPlayerBehaviour()
+    {
     }
     #endregion
 
