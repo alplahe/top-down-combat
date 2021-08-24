@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TopDownCombat;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace LoadingSystem
@@ -90,12 +91,13 @@ namespace LoadingSystem
       RemoveListeners();
     }
     #endregion
-
+    /*
     private void Update()
     {
       if (Input.GetKeyDown(KeyCode.Escape))
         Messenger.Broadcast(BroadcastName.Game.OnReturnToInitialScreen);
     }
+    */
 
     void GotoInit()
     {
