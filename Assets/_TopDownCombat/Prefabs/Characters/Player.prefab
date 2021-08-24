@@ -146,6 +146,8 @@ MonoBehaviour:
   target: {fileID: 0}
   agent: {fileID: 4670796952469908101}
   characterType: 0
+  playerMaterial: {fileID: 2100000, guid: c90b2756cf5e5f34a843a373bdb83a2b, type: 2}
+  NPCMaterial: {fileID: 2100000, guid: 4ad2855b2ec4094469519415a357de61, type: 2}
   speed: 3
   angularSpeed: 120
 --- !u!195 &4670796952469908101

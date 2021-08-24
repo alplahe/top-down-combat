@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -17,22 +18,25 @@ namespace TopDownCombat.Characters
     [SerializeField] private Transform target;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private CharacterType characterType;
+    [SerializeField] private Transform child;
 
-    [Space]
+    [Header("Materials")]
     [SerializeField] private Material playerMaterial;
     [SerializeField] private Material NPCMaterial;
 
-    [Space]
+    [Header("Speed")]
     [SerializeField, Range(0, 10)] private float speed;
     [SerializeField] private float angularSpeed;
 
     private const float SPEED_MULTIPLIER = 0.01f;
-
     private Vector3 inputMovement;
 
     private void Awake()
     {
       agent = GetComponent<NavMeshAgent>();
+      child = GetComponentsInChildren<Transform>()[1]; // Index 0 is the parent
+
+      SetCharactersBehaviour();
     }
 
     private void OnValidate()
@@ -40,6 +44,11 @@ namespace TopDownCombat.Characters
       agent.speed = speed;
       agent.angularSpeed = angularSpeed;
 
+      SetCharactersBehaviour();
+    }
+
+    private void SetCharactersBehaviour()
+    {
       if (characterType == CharacterType.NPC)
       {
         SetNPCBehaviour();
@@ -71,6 +80,11 @@ namespace TopDownCombat.Characters
     {
       gameObject.tag = characterType.ToString();
       gameObject.name = characterType.ToString();
+
+      if (NPCMaterial != null && child != null)
+      {
+        child.GetComponent<MeshRenderer>().material = NPCMaterial;
+      }
     }
 
     private void DoNPCBehaviour()
@@ -87,6 +101,11 @@ namespace TopDownCombat.Characters
       if (agent.isOnNavMesh)
       {
         agent.isStopped = true;
+      }
+
+      if (NPCMaterial != null && child != null)
+      {
+        child.GetComponent<MeshRenderer>().material = playerMaterial;
       }
     }
 
