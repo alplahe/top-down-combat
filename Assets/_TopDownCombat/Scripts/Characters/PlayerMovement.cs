@@ -5,10 +5,17 @@ using UnityEngine.AI;
 
 namespace TopDownCombat.Characters
 {
+  public enum CharacterType
+  {
+    Player,
+    NPC
+  }
+
   public class PlayerMovement : MonoBehaviour
   {
     [SerializeField] private Transform target;
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private CharacterType characterType;
 
     private void Awake()
     {
@@ -17,7 +24,15 @@ namespace TopDownCombat.Characters
 
     private void Update()
     {
-      agent.SetDestination(target.position);
+      if(characterType == CharacterType.NPC)
+      {
+        agent.SetDestination(target.position);
+        return;
+      }
+      else if(characterType == CharacterType.Player)
+      {
+
+      }
     }
   }
 }
