@@ -20,6 +20,8 @@ namespace TopDownCombat.Characters
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private CharacterType characterType;
     [SerializeField] private Transform child;
+    [SerializeField] private Camera characterCamera;
+    [SerializeField] private GameObject characterCameraGO;
 
     [Header("Materials")]
     [SerializeField] private Material playerMaterial;
@@ -36,6 +38,7 @@ namespace TopDownCombat.Characters
     {
       agent = GetComponent<NavMeshAgent>();
       child = GetComponentsInChildren<Transform>()[1]; // Index 0 is the parent
+      characterCamera = GetComponent<Camera>();
 
       SetCharactersBehaviour();
     }
@@ -92,6 +95,12 @@ namespace TopDownCombat.Characters
       {
         playerTarget = GameObject.FindGameObjectWithTag(CharacterType.Player.ToString()).transform;
       }
+
+      if (characterCameraGO != null)
+      {
+        characterCameraGO.SetActive(false);
+        characterCameraGO.GetComponent<Camera>().enabled = false;
+      }
     }
 
     private void DoNPCBehaviour()
@@ -118,6 +127,12 @@ namespace TopDownCombat.Characters
       if (NPCMaterial != null && child != null)
       {
         child.GetComponent<MeshRenderer>().material = playerMaterial;
+      }
+
+      if (characterCameraGO != null)
+      {
+        characterCameraGO.SetActive(true);
+        characterCameraGO.GetComponent<Camera>().enabled = true;
       }
     }
 
