@@ -16,6 +16,7 @@ namespace TopDownCombat.Characters
   public class CharacterMovement : MonoBehaviour
   {
     [SerializeField] private Transform target;
+    [SerializeField] private Transform playerTarget;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private CharacterType characterType;
     [SerializeField] private Transform child;
@@ -56,7 +57,8 @@ namespace TopDownCombat.Characters
       }
       else if (characterType == CharacterType.Player)
       {
-        SetPlayerBehaviour();
+        SetPlayerBehaviour(); // TODO (24-08-2021): When changing an NPC to a Player in runtime, 
+                              // automatically convert the previous Player to NPC
       }
     }
 
@@ -85,12 +87,22 @@ namespace TopDownCombat.Characters
       {
         child.GetComponent<MeshRenderer>().material = NPCMaterial;
       }
+
+      if (GameObject.FindGameObjectWithTag(CharacterType.Player.ToString()) != null)
+      {
+        playerTarget = GameObject.FindGameObjectWithTag(CharacterType.Player.ToString()).transform;
+      }
     }
 
     private void DoNPCBehaviour()
     {
       agent.isStopped = false;
-      agent.SetDestination(target.position);
+      //agent.SetDestination(target.position);
+
+      if (playerTarget != null)
+      {
+        agent.SetDestination(playerTarget.position);
+      }
     }
 
     private void SetPlayerBehaviour()
