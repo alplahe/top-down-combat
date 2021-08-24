@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 3629096869627520251}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,8 +144,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  agent: {fileID: 0}
+  agent: {fileID: 4670796952469908101}
   characterType: 0
+  speed: 3
+  angularSpeed: 120
 --- !u!195 &4670796952469908101
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -156,8 +158,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 3
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
