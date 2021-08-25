@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 3754733812454706961}
   - component: {fileID: 8604254520938165642}
   - component: {fileID: 4139895969026983853}
+  - component: {fileID: 306180714605714752}
   - component: {fileID: 4670796952469908101}
   - component: {fileID: 3629096869627520251}
   m_Layer: 0
@@ -147,11 +148,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 4139895969026983853}
+  characterHealth: {fileID: 306180714605714752}
   characterType: 0
   playerMaterial: {fileID: 2100000, guid: c90b2756cf5e5f34a843a373bdb83a2b, type: 2}
   NPCMaterial: {fileID: 2100000, guid: 4ad2855b2ec4094469519415a357de61, type: 2}
   speed: 4.13
   angularSpeed: 120
+  health: 100
+  maxHealth: 100
+  minHealth: 0
+  canTakeDamage: 1
+  canDie: 1
 --- !u!114 &4139895969026983853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,11 +177,18 @@ MonoBehaviour:
   child: {fileID: 0}
   characterCamera: {fileID: 7121084712279085669}
   characterCameraGO: {fileID: 4654656669129000243}
-  characterType: 0
-  playerMaterial: {fileID: 2100000, guid: c90b2756cf5e5f34a843a373bdb83a2b, type: 2}
-  NPCMaterial: {fileID: 2100000, guid: 4ad2855b2ec4094469519415a357de61, type: 2}
-  speed: 4.13
-  angularSpeed: 120
+--- !u!114 &306180714605714752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3410649761236624122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ae1826a9aa5d44a8bd66bbc6a1ccd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &4670796952469908101
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -226,6 +240,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4139895969026983853}
         m_TargetAssemblyTypeName: TopDownCombat.Characters.PlayerMovement, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8604254520938165642}
+        m_TargetAssemblyTypeName: TopDownCombat.Characters.Character, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
         m_Arguments:

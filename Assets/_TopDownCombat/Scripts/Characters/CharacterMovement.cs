@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace TopDownCombat.Characters
 {
-  public class CharacterMovement : MonoBehaviour, IDamageable
+  public class CharacterMovement : MonoBehaviour
   {
     [SerializeField] private Transform target;
     [SerializeField] private Transform playerTarget;
@@ -239,23 +239,6 @@ namespace TopDownCombat.Characters
         Debug.Log("OnReturnToInitialScreen");
         Messenger.Broadcast(BroadcastName.Game.OnReturnToInitialScreen);
       }
-    }
-    #endregion
-
-    #region Damage
-    public bool TakeDamage()
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public bool DoDamage()
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public bool Die()
-    {
-      throw new System.NotImplementedException();
     }
     #endregion
   }

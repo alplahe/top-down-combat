@@ -51,5 +51,24 @@ namespace TopDownCombat
       public static string OnGameApplicationQuit = prefix + "OnGameApplicationQuit";
       public static string OnPlayGame = prefix + "OnPlayGame";
     }
+
+    public class Health
+    {
+      public static string prefix = "Health_";
+
+      public static string OnPlayerDie = prefix + "OnPlayerDie";
+      public static string OnNPCDie = prefix + "OnNPCDie";
+
+      public static string OnPlayerTakeDamage = prefix + "OnPlayerTakeDamage";
+      public static string OnNPCTakeDamage = prefix + "OnNPCTakeDamage";
+    }
+
+    public class Wave
+    {
+      public static string prefix = "Wave_";
+
+      public static string OnAllNPCsOfWaveDie = prefix + "OnAllNPCsOfWaveDie";
+      public static string OnAllWavesEnd = prefix + "OnAllWavesEnd";
+    }
   }
 }

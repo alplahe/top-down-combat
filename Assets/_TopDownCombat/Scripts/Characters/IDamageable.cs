@@ -1,6 +1,6 @@
 public interface IDamageable
 {
-  public bool TakeDamage();
-  public bool DoDamage();
+  public bool TakeDamage(int damage);
+  public bool DoDamage(int damage);
   public bool Die();
 }
