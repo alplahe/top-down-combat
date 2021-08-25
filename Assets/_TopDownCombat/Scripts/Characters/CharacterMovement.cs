@@ -7,13 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace TopDownCombat.Characters
 {
-  public enum CharacterType
-  {
-    Player,
-    NPC
-  }
-
-  public class CharacterMovement : MonoBehaviour
+  public class CharacterMovement : MonoBehaviour, IDamageable
   {
     [SerializeField] private Transform target;
     [SerializeField] private Transform playerTarget;
@@ -22,16 +16,13 @@ namespace TopDownCombat.Characters
     [SerializeField] private Camera characterCamera;
     [SerializeField] private GameObject characterCameraGO;
 
-    [Header("Character")]
-    [SerializeField] private CharacterType characterType;
+    private CharacterType characterType;
 
-    [Header("Materials")]
-    [SerializeField] private Material playerMaterial;
-    [SerializeField] private Material NPCMaterial;
+    private Material playerMaterial;
+    private Material NPCMaterial;
 
-    [Header("Speed")]
-    [SerializeField, Range(0, 10)] private float speed;
-    [SerializeField] private float angularSpeed;
+    private float speed;
+    private float angularSpeed;
 
     private const float SPEED_MULTIPLIER = 0.01f;
     private const float MAX_ANGLE = 360.0f;
@@ -40,6 +31,7 @@ namespace TopDownCombat.Characters
     private Vector3 worldPosition;
     private float angle;
 
+    #region Init
     private void Awake()
     {
       agent = GetComponent<NavMeshAgent>();
@@ -55,13 +47,17 @@ namespace TopDownCombat.Characters
 
     private void OnValidate()
     {
-      agent.speed = speed;
-      agent.angularSpeed = angularSpeed;
-
+      SetAgentSpeeds();
       SetCharactersBehaviour();
     }
 
-    private void SetCharactersBehaviour()
+    public void SetAgentSpeeds()
+    {
+      agent.speed = speed;
+      agent.angularSpeed = angularSpeed;
+    }
+
+    public void SetCharactersBehaviour()
     {
       if (characterType == CharacterType.NPC)
       {
@@ -74,6 +70,34 @@ namespace TopDownCombat.Characters
                               // automatically convert the previous Player to NPC
       }
     }
+    #endregion
+
+    #region Setters
+    public void SetCharacterType(CharacterType _characterType)
+    {
+      characterType = _characterType;
+    }
+
+    public void SetPlayerMaterial(Material material)
+    {
+      playerMaterial = material;
+    }
+
+    public void SetNPCMaterial(Material material)
+    {
+      NPCMaterial = material;
+    }
+
+    public void SetSpeed(float _speed)
+    {
+      speed = _speed;
+    }
+
+    public void SetAngularSpeed(float _angularSpeed)
+    {
+      angularSpeed = _angularSpeed;
+    }
+    #endregion
 
     private void Update()
     {
@@ -129,6 +153,8 @@ namespace TopDownCombat.Characters
     {
       gameObject.tag = characterType.ToString();
       gameObject.name = characterType.ToString();
+
+      transform.rotation = Quaternion.identity; // Restart rotation
 
       if (agent.isOnNavMesh)
       {
@@ -213,6 +239,23 @@ namespace TopDownCombat.Characters
         Debug.Log("OnReturnToInitialScreen");
         Messenger.Broadcast(BroadcastName.Game.OnReturnToInitialScreen);
       }
+    }
+    #endregion
+
+    #region Damage
+    public bool TakeDamage()
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public bool DoDamage()
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public bool Die()
+    {
+      throw new System.NotImplementedException();
     }
     #endregion
   }

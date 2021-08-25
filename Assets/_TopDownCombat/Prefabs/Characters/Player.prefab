@@ -107,6 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3754733812454706961}
+  - component: {fileID: 8604254520938165642}
   - component: {fileID: 4139895969026983853}
   - component: {fileID: 4670796952469908101}
   - component: {fileID: 3629096869627520251}
@@ -133,6 +134,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8604254520938165642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3410649761236624122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bed2d0a187fe3469b4eadf739ce9d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterMovement: {fileID: 4139895969026983853}
+  characterType: 0
+  playerMaterial: {fileID: 2100000, guid: c90b2756cf5e5f34a843a373bdb83a2b, type: 2}
+  NPCMaterial: {fileID: 2100000, guid: 4ad2855b2ec4094469519415a357de61, type: 2}
+  speed: 4.13
+  angularSpeed: 120
 --- !u!114 &4139895969026983853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +173,7 @@ MonoBehaviour:
   characterType: 0
   playerMaterial: {fileID: 2100000, guid: c90b2756cf5e5f34a843a373bdb83a2b, type: 2}
   NPCMaterial: {fileID: 2100000, guid: 4ad2855b2ec4094469519415a357de61, type: 2}
-  speed: 3
+  speed: 4.13
   angularSpeed: 120
 --- !u!195 &4670796952469908101
 NavMeshAgent:
@@ -166,7 +185,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3
+  m_Speed: 4.13
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 120
