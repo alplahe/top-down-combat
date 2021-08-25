@@ -18,10 +18,12 @@ namespace TopDownCombat.Characters
     [SerializeField] private Transform target;
     [SerializeField] private Transform playerTarget;
     [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private CharacterType characterType;
     [SerializeField] private Transform child;
     [SerializeField] private Camera characterCamera;
     [SerializeField] private GameObject characterCameraGO;
+
+    [Header("Character")]
+    [SerializeField] private CharacterType characterType;
 
     [Header("Materials")]
     [SerializeField] private Material playerMaterial;
@@ -32,13 +34,21 @@ namespace TopDownCombat.Characters
     [SerializeField] private float angularSpeed;
 
     private const float SPEED_MULTIPLIER = 0.01f;
+    private const float MAX_ANGLE = 360.0f;
+
     private Vector3 inputMovement;
+    private Vector3 worldPosition;
+    private float angle;
 
     private void Awake()
     {
       agent = GetComponent<NavMeshAgent>();
       child = GetComponentsInChildren<Transform>()[1]; // Index 0 is the parent
-      characterCamera = GetComponent<Camera>();
+      
+      if(characterCameraGO != null)
+      {
+        characterCamera = characterCameraGO.GetComponent<Camera>();
+      }
 
       SetCharactersBehaviour();
     }
@@ -67,17 +77,18 @@ namespace TopDownCombat.Characters
 
     private void Update()
     {
-      if(characterType == CharacterType.NPC)
+      if (characterType == CharacterType.NPC)
       {
         DoNPCBehaviour();
         return;
       }
-      else if(characterType == CharacterType.Player)
+      else if (characterType == CharacterType.Player)
       {
         DoPlayerBehaviour();
       }
 
       ApplyMovement();
+      ApplyRotation();
     }
 
     #region Characters
@@ -142,13 +153,48 @@ namespace TopDownCombat.Characters
     #endregion
 
     #region Movement
-    public void ApplyMovement()
+    private void ApplyMovement()
     {
       float xDirection = inputMovement.x;
       float zDirection = inputMovement.y;
 
       Vector3 moveDirection = new Vector3(xDirection, 0.0f, zDirection);
       transform.position += moveDirection * speed * SPEED_MULTIPLIER;
+    }
+
+    private void ApplyRotation()
+    {
+      Vector2 mousePosition = Mouse.current.position.ReadValue();
+      AssignPlayerWithCursorAngle();
+
+      Vector3 lineDirection = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+      //child.LookAt(new Vector3(mousePosition.x, 0.0f, mousePosition.y));
+      //child.LookAt(lineDirection);
+      child.transform.rotation = Quaternion.Euler(0, angle, 0);
+      //child.transform.Rotate(lineDirection);
+    }
+
+    private void AssignPlayerWithCursorAngle()
+    {
+      Vector3 mousePosition = Mouse.current.position.ReadValue();
+      mousePosition.z = characterCamera.transform.position.y - transform.position.y;
+      worldPosition = characterCamera.ScreenToWorldPoint(mousePosition);
+
+      Vector3 lineDirection = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+
+      Vector3 cursorToBallVector = worldPosition - transform.position;
+
+      float cursorToPlayerAngle = Vector3.Angle(cursorToBallVector, Vector3.forward);
+
+      cursorToPlayerAngle = ReformatAngle(worldPosition, cursorToPlayerAngle);
+      angle = cursorToPlayerAngle;
+    }
+
+    // Reformat angle to 0-360 degrees. Previously it was 0-180, 180-0.
+    private float ReformatAngle(Vector3 worldPosition, float cursorToPlayerAngle)
+    {
+      if (worldPosition.x - transform.position.x < 0) cursorToPlayerAngle = MAX_ANGLE - cursorToPlayerAngle;
+      return cursorToPlayerAngle;
     }
     #endregion
 
