@@ -164,14 +164,8 @@ namespace TopDownCombat.Characters
 
     private void ApplyRotation()
     {
-      Vector2 mousePosition = Mouse.current.position.ReadValue();
       AssignPlayerWithCursorAngle();
-
-      Vector3 lineDirection = Quaternion.Euler(0, angle, 0) * Vector3.forward;
-      //child.LookAt(new Vector3(mousePosition.x, 0.0f, mousePosition.y));
-      //child.LookAt(lineDirection);
       child.transform.rotation = Quaternion.Euler(0, angle, 0);
-      //child.transform.Rotate(lineDirection);
     }
 
     private void AssignPlayerWithCursorAngle()
@@ -179,8 +173,6 @@ namespace TopDownCombat.Characters
       Vector3 mousePosition = Mouse.current.position.ReadValue();
       mousePosition.z = characterCamera.transform.position.y - transform.position.y;
       worldPosition = characterCamera.ScreenToWorldPoint(mousePosition);
-
-      Vector3 lineDirection = Quaternion.Euler(0, angle, 0) * Vector3.forward;
 
       Vector3 cursorToBallVector = worldPosition - transform.position;
 
