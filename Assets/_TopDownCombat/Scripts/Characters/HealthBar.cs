@@ -9,6 +9,7 @@ namespace TopDownCombat.Characters
   public class HealthBar : MonoBehaviour
   {
     [SerializeField] private Image foregroundImage;
+    [SerializeField] private float updatedSpeedSeconds = 0.5f;
 
     private bool isInited = false;
     private int parentID;
@@ -53,8 +54,26 @@ namespace TopDownCombat.Characters
     {
       if (parentID == instanceID)
       {
-        foregroundImage.fillAmount = healthPercentage;
+        //foregroundImage.fillAmount = healthPercentage;
+        StartCoroutine(ChangeToPercentage(healthPercentage));
       }
+    }
+
+    private IEnumerator ChangeToPercentage(float healthPercentage)
+    {
+      float preChangePercentage = foregroundImage.fillAmount;
+      float elapsed = 0.0f;
+
+      while (elapsed < updatedSpeedSeconds)
+      {
+        elapsed += Time.deltaTime;
+        foregroundImage.fillAmount = Mathf.Lerp(preChangePercentage, healthPercentage, elapsed / updatedSpeedSeconds);
+
+        yield return null;
+      }
+
+      foregroundImage.fillAmount = healthPercentage;
+      Messenger.Broadcast<int>(BroadcastName.Health.OnHealthPercentageAnimationEnds, parentID);
     }
   }
 }

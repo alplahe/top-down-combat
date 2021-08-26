@@ -64,6 +64,7 @@ namespace TopDownCombat.Characters
 
     private void Init()
     {
+      characterHealth.Init();
       healthBar.Init(gameObject.GetInstanceID());
     }
 

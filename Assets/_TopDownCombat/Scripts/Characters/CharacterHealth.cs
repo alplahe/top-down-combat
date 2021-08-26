@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace TopDownCombat.Characters
     private bool canTakeDamage;
     private bool canDie;
     private CharacterType characterType;
+    private bool isInited = false;
 
     private Character character;
 
@@ -38,7 +40,50 @@ namespace TopDownCombat.Characters
     #region Init
     private void Awake()
     {
+      Debug.Log("# CharacterHealth # Awake");
+      //Init();
+    }
+
+    public void Init()
+    {
+      Debug.Log("# CharacterHealth # Init");
+
+      isInited = true;
       character = GetComponent<Character>();
+
+      AddListeners();
+    }
+    #endregion
+
+    #region Listeners
+    private void AddListeners()
+    {
+      Messenger.AddListener<int>(BroadcastName.Health.OnHealthPercentageAnimationEnds, OnHealthPercentageAnimationEnds);
+    }
+
+    private void RemoveListeners()
+    {
+      Messenger.RemoveListener<int>(BroadcastName.Health.OnHealthPercentageAnimationEnds, OnHealthPercentageAnimationEnds);
+    }
+
+    private void OnHealthPercentageAnimationEnds(int characterID)
+    {
+      Debug.Log("# CharacterHealth # OnHealthPercentageAnimationEnds");
+
+      if (health <= minHealth)
+      {
+        health = minHealth;
+        Die();
+      }
+    }
+
+    private void OnDestroy()
+    {
+      if (isInited)
+      {
+        RemoveListeners();
+        isInited = false;
+      }
     }
     #endregion
 
@@ -52,13 +97,13 @@ namespace TopDownCombat.Characters
 
       float currentHealthPercentage = (float)health / (float)maxHealth;
       Messenger.Broadcast<float, int>(BroadcastName.Health.OnHealthPercentageChanged, currentHealthPercentage, gameObject.GetInstanceID());
-
+      /*
       if (health <= minHealth)
       {
         health = minHealth;
         Die();
       }
-
+      */
       return true;
     }
 

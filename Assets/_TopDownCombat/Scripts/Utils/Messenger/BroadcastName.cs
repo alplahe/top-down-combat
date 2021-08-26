@@ -60,6 +60,7 @@ namespace TopDownCombat
       public static string OnNPCDie = prefix + "OnNPCDie";
 
       public static string OnHealthPercentageChanged = prefix + "OnHealthPercentageChanged";
+      public static string OnHealthPercentageAnimationEnds = prefix + "OnHealthPercentageAnimationEnds";
 
       public static string OnPlayerTakeDamage = prefix + "OnPlayerTakeDamage";
       public static string OnNPCTakeDamage = prefix + "OnNPCTakeDamage";
