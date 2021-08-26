@@ -64,8 +64,12 @@ namespace TopDownCombat.Characters
 
     private void Init()
     {
+      characterMovement.Init();
       characterHealth.Init();
       healthBar.Init(gameObject.GetInstanceID());
+
+      SetCharacterMovementVariables();
+      SetCharacterHealthVariables();
     }
 
     private void SetCharacterMovementVariables()

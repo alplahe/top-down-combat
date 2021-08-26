@@ -34,14 +34,20 @@ namespace TopDownCombat.Characters
     #region Init
     private void Awake()
     {
+      //Init();
+    }
+
+    public void Init()
+    {
       agent = GetComponent<NavMeshAgent>();
       child = GetComponentsInChildren<Transform>()[1]; // Index 0 is the parent
-      
-      if(characterCameraGO != null)
+
+      if (characterCameraGO != null)
       {
         characterCamera = characterCameraGO.GetComponent<Camera>();
       }
 
+      SetAgentSpeeds();
       SetCharactersBehaviour();
     }
 

@@ -748,3 +748,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foregroundImage: {fileID: 3395703499501764837}
+  updatedSpeedSeconds: 0.5
