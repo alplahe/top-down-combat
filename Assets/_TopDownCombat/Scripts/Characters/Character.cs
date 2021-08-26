@@ -10,15 +10,25 @@ namespace TopDownCombat.Characters
     Player,
     NPC
   }
+
+  public enum AttackType
+  {
+    Short,
+    Long
+  }
+
   public class Character : MonoBehaviour
   {
     [Header("Components")]
     [SerializeField] private CharacterMovement characterMovement;
     [SerializeField] private CharacterHealth characterHealth;
     [SerializeField] private HealthBar healthBar;
+    [SerializeField] private CharacterAttack characterAttack;
 
     [Header("Character")]
     [SerializeField] private CharacterType characterType;
+    [SerializeField] private AttackType attackType;
+    [SerializeField] private bool playerHasBothAttackTypes = true;
 
     [Header("Materials")]
     [SerializeField] private Material playerMaterial;
@@ -35,6 +45,21 @@ namespace TopDownCombat.Characters
     [SerializeField] private bool canTakeDamage;
     [SerializeField] private bool canDie;
 
+    [Header("Short attack")]
+    [SerializeField] private float shortAttackRange;
+    [SerializeField] private int shortAttackDamage;
+    [SerializeField] private float shortAttackCooldown;
+    [SerializeField] private float shortAttackStoppingDistance_NPC;
+
+    [Header("Long attack")]
+    [SerializeField] private int longAttackDamage;
+    [SerializeField] private float longAttackShotFrecuency;
+    [SerializeField] private float longAttackProjectileSpeed;
+    [SerializeField] private float longAttackProjectileRange;
+    [SerializeField] private float longAttackShotRange_NPC;
+    [SerializeField] private float longAttackShotTimePreparation_NPC;
+    [SerializeField] private float longAttackStoppingDistance_NPC;
+
     #region Getters and setters
     public int Health { get => health; set => health = value; }
     #endregion
@@ -49,12 +74,16 @@ namespace TopDownCombat.Characters
 
       //healthBar = GetComponent<HealthBar>(); // It is attached in the inspector
       if (healthBar == null) Debug.Log("healthBar is NULL!");
+
+      characterAttack = GetComponent<CharacterAttack>();
+      if (characterAttack == null) Debug.Log("characterAttack is NULL!");
     }
 
     private void OnValidate()
     {
       SetCharacterMovementVariables();
       SetCharacterHealthVariables();
+      SetCharacterAttackVariables();
     }
 
     private void Start()
@@ -67,9 +96,11 @@ namespace TopDownCombat.Characters
       characterMovement.Init();
       characterHealth.Init();
       healthBar.Init(gameObject.GetInstanceID());
+      characterAttack.Init();
 
       SetCharacterMovementVariables();
       SetCharacterHealthVariables();
+      SetCharacterAttackVariables();
     }
 
     private void SetCharacterMovementVariables()
@@ -92,6 +123,27 @@ namespace TopDownCombat.Characters
       characterHealth.CanTakeDamage = canTakeDamage;
       characterHealth.CanDie = canDie;
       characterHealth.CharacterType = characterType;
+    }
+
+    private void SetCharacterAttackVariables()
+    {
+      characterAttack.AttackType = attackType;
+      characterAttack.PlayerHasBothAttackTypes = playerHasBothAttackTypes;
+
+      characterAttack.ShortAttackRange = shortAttackRange;
+      characterAttack.ShortAttackDamage = shortAttackDamage;
+      characterAttack.ShortAttackCooldown = shortAttackCooldown;
+      characterAttack.ShortAttackStoppingDistance_NPC = shortAttackStoppingDistance_NPC;
+
+      characterAttack.LongAttackDamage = longAttackDamage;
+      characterAttack.LongAttackShotFrecuency = longAttackShotFrecuency;
+      characterAttack.LongAttackProjectileSpeed = longAttackProjectileSpeed;
+      characterAttack.LongAttackProjectileRange = longAttackProjectileRange;
+      characterAttack.LongAttackShotRange_NPC = longAttackShotRange_NPC;
+      characterAttack.LongAttackShotTimePreparation_NPC = longAttackShotTimePreparation_NPC;
+      characterAttack.LongAttackStoppingDistance_NPC = longAttackStoppingDistance_NPC;
+
+      characterAttack.SetAttackTypeBehaviour();
     }
 
     public void OnAttack(InputAction.CallbackContext value)

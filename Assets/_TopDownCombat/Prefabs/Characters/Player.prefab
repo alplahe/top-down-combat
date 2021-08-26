@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 8604254520938165642}
   - component: {fileID: 4139895969026983853}
   - component: {fileID: 306180714605714752}
+  - component: {fileID: 8433757197323359632}
   - component: {fileID: 4670796952469908101}
   - component: {fileID: 3629096869627520251}
   m_Layer: 0
@@ -226,7 +227,10 @@ MonoBehaviour:
   characterMovement: {fileID: 4139895969026983853}
   characterHealth: {fileID: 306180714605714752}
   healthBar: {fileID: 249731333442557112}
+  characterAttack: {fileID: 8433757197323359632}
   characterType: 0
+  attackType: 0
+  playerHasBothAttackTypes: 1
   playerMaterial: {fileID: 2100000, guid: c90b2756cf5e5f34a843a373bdb83a2b, type: 2}
   NPCMaterial: {fileID: 2100000, guid: 4ad2855b2ec4094469519415a357de61, type: 2}
   speed: 4.13
@@ -236,6 +240,17 @@ MonoBehaviour:
   minHealth: 0
   canTakeDamage: 1
   canDie: 1
+  shortAttackRange: 2
+  shortAttackDamage: 0
+  shortAttackCooldown: 0
+  shortAttackStoppingDistance_NPC: 1.5
+  longAttackDamage: 0
+  longAttackShotFrecuency: 0
+  longAttackProjectileSpeed: 0
+  longAttackProjectileRange: 0
+  longAttackShotRange_NPC: 10
+  longAttackShotTimePreparation_NPC: 0
+  longAttackStoppingDistance_NPC: 8
 --- !u!114 &4139895969026983853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +281,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ae1826a9aa5d44a8bd66bbc6a1ccd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8433757197323359632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3410649761236624122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f21f3189d6e3245a8f518d00be494d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 4670796952469908101}
 --- !u!195 &4670796952469908101
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -280,7 +308,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
