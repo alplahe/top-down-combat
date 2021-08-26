@@ -50,6 +50,9 @@ namespace TopDownCombat.Characters
       health -= damage;
       character.Health = health;
 
+      float currentHealthPercentage = (float)health / (float)maxHealth;
+      Messenger.Broadcast<float, int>(BroadcastName.Health.OnHealthPercentageChanged, currentHealthPercentage, gameObject.GetInstanceID());
+
       if (health <= minHealth)
       {
         health = minHealth;

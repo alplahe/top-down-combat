@@ -15,6 +15,7 @@ namespace TopDownCombat.Characters
     [Header("Components")]
     [SerializeField] private CharacterMovement characterMovement;
     [SerializeField] private CharacterHealth characterHealth;
+    [SerializeField] private HealthBar healthBar;
 
     [Header("Character")]
     [SerializeField] private CharacterType characterType;
@@ -45,12 +46,25 @@ namespace TopDownCombat.Characters
 
       characterHealth = GetComponent<CharacterHealth>();
       if (characterHealth == null) Debug.Log("characterHealth is NULL!");
+
+      //healthBar = GetComponent<HealthBar>(); // It is attached in the inspector
+      if (healthBar == null) Debug.Log("healthBar is NULL!");
     }
 
     private void OnValidate()
     {
       SetCharacterMovementVariables();
       SetCharacterHealthVariables();
+    }
+
+    private void Start()
+    {
+      Init();
+    }
+
+    private void Init()
+    {
+      healthBar.Init(gameObject.GetInstanceID());
     }
 
     private void SetCharacterMovementVariables()
@@ -80,9 +94,9 @@ namespace TopDownCombat.Characters
       if (value.started)
       {
         Debug.Log("# Character # OnAttack");
-        if (characterType == CharacterType.NPC)
+        if (characterType == CharacterType.Player) // DELETE THIS: This is just a test
         {
-          Debug.Log("# Character # NPC take damage");
+          Debug.Log("# Character # Player take damage");
           characterHealth.TakeDamage(maxHealth/2);
         }
       }
