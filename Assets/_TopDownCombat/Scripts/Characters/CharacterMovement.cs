@@ -236,14 +236,14 @@ namespace TopDownCombat.Characters
     {
       if (value.started)
       {
-        Debug.Log("OnAttack");
+        Debug.Log("# CharacterMovement # OnAttack");
       }
     }
 
     public void OnMovement(InputAction.CallbackContext value)
     {
       Vector2 _inputMovement = value.ReadValue<Vector2>();
-      Debug.Log("inputMovement: " + _inputMovement);
+      //Debug.Log("inputMovement: " + _inputMovement);
       inputMovement = _inputMovement;
     }
 
@@ -251,7 +251,7 @@ namespace TopDownCombat.Characters
     {
       if (value.started)
       {
-        Debug.Log("OnReturnToInitialScreen");
+        Debug.Log("# CharacterMovement # OnReturnToInitialScreen");
         Messenger.Broadcast(BroadcastName.Game.OnReturnToInitialScreen);
       }
     }

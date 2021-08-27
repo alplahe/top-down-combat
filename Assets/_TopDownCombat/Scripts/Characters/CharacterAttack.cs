@@ -11,6 +11,7 @@ namespace TopDownCombat.Characters
   {
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private GameObject capsule;
+    [SerializeField] private GameObject shortAttackWeapon;
     
     private GameObject raycastObject;
 
@@ -23,6 +24,10 @@ namespace TopDownCombat.Characters
     private float shortAttackCooldown;
     private float shortAttackStoppingDistance_NPC;
 
+    private float shortAttackTimer;
+    private bool doShortAttack_Player = false;
+    private float shortAttackAnimationDuration = 0.5f; // Must always be a less value than shortAttackCooldown
+
     private int longAttackDamage;
     private float longAttackShotFrecuency;
     private float longAttackProjectileSpeed;
@@ -31,7 +36,6 @@ namespace TopDownCombat.Characters
     private float longAttackShotTimePreparation_NPC;
     private float longAttackStoppingDistance_NPC;
 
-    private float shortAttackTimer;
     private float longAttackTimer;
 
     #region Getters and setters
@@ -65,13 +69,17 @@ namespace TopDownCombat.Characters
       {
         raycastObject = gameObject;
       }
+
+      ClampShortAttackAnimationDuration();
     }
 
-    private void Update()
+    private void ClampShortAttackAnimationDuration()
     {
-      //CheckForHit();
-
-      shortAttackTimer += Time.deltaTime;
+      if(shortAttackAnimationDuration >= shortAttackCooldown)
+      {
+        // Set shortAttackAnimationDuration as a 80% the shortAttackCooldown
+        shortAttackAnimationDuration = shortAttackCooldown * 0.8f;
+      }
     }
 
     public void SetAttackTypeBehaviour()
@@ -86,13 +94,11 @@ namespace TopDownCombat.Characters
       }
     }
 
-    public void DoShortAttack()
+    private void Update()
     {
-      if(shortAttackTimer >= shortAttackCooldown)
-      {
-        shortAttackTimer = 0;
-        CheckForHit();
-      }
+      shortAttackTimer += Time.deltaTime;
+
+      CheckForHit();
     }
 
     void CheckForHit()
@@ -104,12 +110,7 @@ namespace TopDownCombat.Characters
 
       if (Physics.Raycast(raycastObject.transform.position, forward, out objectHit, shortAttackRange))
       {
-        Debug.Log("objectHit.transform.tag: " + objectHit.transform.tag);
-
-        if (objectHit.transform.parent.CompareTag("NPC"))
-        {
-          Debug.Log("Close to enemy");
-        }
+        ManagePlayerShortAttack(forward, objectHit);
         /*
         if (objectHit.transform.parent.CompareTag("Player"))
         {
@@ -117,15 +118,64 @@ namespace TopDownCombat.Characters
         }
         */
       }
+
+      doShortAttack_Player = false;
     }
 
+    private void ManagePlayerShortAttack(Vector3 forward, RaycastHit objectHit)
+    {
+      if (!doShortAttack_Player) return;
+
+      Debug.Log("objectHit.transform.tag: " + objectHit.transform.tag);
+
+      if (objectHit.transform.parent.CompareTag("NPC"))
+      {
+        DoShortAttack(forward, objectHit);
+      }
+    }
+
+    public void DoShortAttack(Vector3 forward, RaycastHit objectHit)
+    {
+      Debug.Log("DoShortAttack");
+
+      if (shortAttackTimer >= shortAttackCooldown)
+      {
+        Debug.Log("Attack to enemy");
+        shortAttackTimer = 0;
+
+        Debug.DrawRay(raycastObject.transform.position, forward * shortAttackRange, Color.red);
+        //ShowShortAttackAnimation();
+
+        // do damage
+      }
+    }
+
+    private void ShowShortAttackAnimation()
+    {
+      shortAttackWeapon.SetActive(true);
+      StartCoroutine(CoShowShortAttackAnimation());
+    }
+
+    private IEnumerator CoShowShortAttackAnimation()
+    {
+      yield return new WaitForSeconds(shortAttackAnimationDuration);
+      shortAttackWeapon.SetActive(false);
+    }
+
+    #region Input System
     public void OnAttack(InputAction.CallbackContext value)
     {
       if (value.started)
       {
         Debug.Log("# CharacterAttack # OnAttack");
-        DoShortAttack();
+        //DoShortAttack();
+        if(characterType == CharacterType.Player)
+        {
+          doShortAttack_Player = true;
+          ShowShortAttackAnimation();
+        }
       }
     }
+    #endregion
   }
 }
