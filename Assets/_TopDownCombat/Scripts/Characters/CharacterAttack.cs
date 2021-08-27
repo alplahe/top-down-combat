@@ -26,7 +26,7 @@ namespace TopDownCombat.Characters
 
     private float shortAttackTimer;
     private bool doShortAttack_Player = false;
-    private float shortAttackAnimationDuration = 0.5f; // Must always be a less value than shortAttackCooldown
+    private float shortAttackAnimationDuration = 0.2f; // Must always be a less value than shortAttackCooldown
 
     private int longAttackDamage;
     private float longAttackShotFrecuency;
@@ -110,7 +110,8 @@ namespace TopDownCombat.Characters
 
       if (Physics.Raycast(raycastObject.transform.position, forward, out objectHit, shortAttackRange))
       {
-        ManagePlayerShortAttack(forward, objectHit);
+        ManagePlayerShortAttack(objectHit);
+        ManageNPCShortAttack(objectHit);
         /*
         if (objectHit.transform.parent.CompareTag("Player"))
         {
@@ -122,7 +123,8 @@ namespace TopDownCombat.Characters
       doShortAttack_Player = false;
     }
 
-    private void ManagePlayerShortAttack(Vector3 forward, RaycastHit objectHit)
+    #region Short attack
+    private void ManagePlayerShortAttack(RaycastHit objectHit)
     {
       if (!doShortAttack_Player) return;
 
@@ -130,11 +132,12 @@ namespace TopDownCombat.Characters
 
       if (objectHit.transform.parent.CompareTag("NPC"))
       {
-        DoShortAttack(forward, objectHit);
+        CharacterHealth characterHealth_Victim = objectHit.transform.parent.GetComponent<CharacterHealth>();
+        DoShortAttack(characterHealth_Victim);
       }
     }
 
-    public void DoShortAttack(Vector3 forward, RaycastHit objectHit)
+    public void DoShortAttack(CharacterHealth characterHealth_Victim)
     {
       Debug.Log("DoShortAttack");
 
@@ -143,15 +146,22 @@ namespace TopDownCombat.Characters
         Debug.Log("Attack to enemy");
         shortAttackTimer = 0;
 
-        Debug.DrawRay(raycastObject.transform.position, forward * shortAttackRange, Color.red);
         //ShowShortAttackAnimation();
 
         // do damage
+        characterHealth_Victim.TakeDamage(shortAttackDamage);
+
+        Debug.Log("# CharacterAttack # Attacker: " + gameObject.name + 
+          ". Victim: " + characterHealth_Victim + 
+          ". Damage: " + shortAttackDamage);
       }
     }
 
     private void ShowShortAttackAnimation()
     {
+      if (shortAttackWeapon.activeSelf) return; // Is already doing the animation
+      if (shortAttackTimer < shortAttackCooldown) return;
+
       shortAttackWeapon.SetActive(true);
       StartCoroutine(CoShowShortAttackAnimation());
     }
@@ -162,13 +172,28 @@ namespace TopDownCombat.Characters
       shortAttackWeapon.SetActive(false);
     }
 
+    private void ManageNPCShortAttack(RaycastHit objectHit)
+    {
+      // TO DO...
+      if (!doShortAttack_Player) return;
+
+      Debug.Log("objectHit.transform.tag: " + objectHit.transform.tag);
+
+      if (objectHit.transform.parent.CompareTag("NPC"))
+      {
+        CharacterHealth characterHealth_Victim = objectHit.transform.parent.GetComponent<CharacterHealth>();
+        DoShortAttack(characterHealth_Victim);
+      }
+    }
+    #endregion
+
     #region Input System
     public void OnAttack(InputAction.CallbackContext value)
     {
       if (value.started)
       {
         Debug.Log("# CharacterAttack # OnAttack");
-        //DoShortAttack();
+
         if(characterType == CharacterType.Player)
         {
           doShortAttack_Player = true;

@@ -370,7 +370,7 @@ MonoBehaviour:
   canTakeDamage: 1
   canDie: 1
   shortAttackRange: 2
-  shortAttackDamage: 0
+  shortAttackDamage: 25
   shortAttackCooldown: 1
   shortAttackStoppingDistance_NPC: 1.5
   longAttackDamage: 0
