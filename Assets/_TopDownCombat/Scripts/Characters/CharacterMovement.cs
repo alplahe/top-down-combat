@@ -127,6 +127,8 @@ namespace TopDownCombat.Characters
       gameObject.tag = characterType.ToString();
       gameObject.name = characterType.ToString();
 
+      agent.updateRotation = true;
+
       if (NPCMaterial != null && child != null)
       {
         child.GetComponent<MeshRenderer>().material = NPCMaterial;
@@ -147,12 +149,19 @@ namespace TopDownCombat.Characters
     private void DoNPCBehaviour()
     {
       agent.isStopped = false;
-      //agent.SetDestination(target.position);
 
       if (playerTarget != null)
       {
         agent.SetDestination(playerTarget.position);
+        RotateTowards(playerTarget);
       }
+    }
+
+    private void RotateTowards(Transform target)
+    {
+      Vector3 direction = (target.position - transform.position).normalized;
+      Quaternion lookRotation = Quaternion.LookRotation(direction);
+      transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * angularSpeed);
     }
 
     private void SetPlayerBehaviour()

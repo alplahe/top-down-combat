@@ -242,7 +242,7 @@ MonoBehaviour:
   canDie: 1
   shortAttackRange: 2
   shortAttackDamage: 0
-  shortAttackCooldown: 0
+  shortAttackCooldown: 1
   shortAttackStoppingDistance_NPC: 1.5
   longAttackDamage: 0
   longAttackShotFrecuency: 0
@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 4670796952469908101}
+  capsule: {fileID: 2056905823}
 --- !u!195 &4670796952469908101
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -355,8 +356,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 8604254520938165642}
-        m_TargetAssemblyTypeName: TopDownCombat.Characters.Character, Assembly-CSharp
+      - m_Target: {fileID: 8433757197323359632}
+        m_TargetAssemblyTypeName: TopDownCombat.Characters.CharacterAttack, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
         m_Arguments:

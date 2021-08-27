@@ -128,6 +128,7 @@ namespace TopDownCombat.Characters
     private void SetCharacterAttackVariables()
     {
       characterAttack.AttackType = attackType;
+      characterAttack.CharacterType = characterType;
       characterAttack.PlayerHasBothAttackTypes = playerHasBothAttackTypes;
 
       characterAttack.ShortAttackRange = shortAttackRange;
@@ -153,8 +154,8 @@ namespace TopDownCombat.Characters
         Debug.Log("# Character # OnAttack");
         if (characterType == CharacterType.Player) // DELETE THIS: This is just a test
         {
-          Debug.Log("# Character # Player take damage");
-          characterHealth.TakeDamage(maxHealth/2);
+          //Debug.Log("# Character # Player take damage");
+          //characterHealth.TakeDamage(maxHealth/2);
         }
       }
     }
