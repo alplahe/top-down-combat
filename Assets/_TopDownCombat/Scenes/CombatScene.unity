@@ -8350,6 +8350,10 @@ PrefabInstance:
       propertyPath: characterType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8604254520938165642, guid: 94c7f96868034944fb3b7e4af37b2bb4, type: 3}
+      propertyPath: shortAttackDamage
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94c7f96868034944fb3b7e4af37b2bb4, type: 3}
 --- !u!1 &1255913074
@@ -10228,6 +10232,10 @@ PrefabInstance:
     - target: {fileID: 8604254520938165642, guid: 94c7f96868034944fb3b7e4af37b2bb4, type: 3}
       propertyPath: characterType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8604254520938165642, guid: 94c7f96868034944fb3b7e4af37b2bb4, type: 3}
+      propertyPath: shortAttackDamage
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94c7f96868034944fb3b7e4af37b2bb4, type: 3}

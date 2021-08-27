@@ -98,10 +98,13 @@ namespace TopDownCombat.Characters
     {
       shortAttackTimer += Time.deltaTime;
 
-      CheckForHit();
+      if (attackType == AttackType.Short || characterType == CharacterType.Player)
+      {
+        CheckForShortAttackHit();
+      }
     }
 
-    void CheckForHit()
+    void CheckForShortAttackHit()
     {
       RaycastHit objectHit;
 
@@ -112,12 +115,6 @@ namespace TopDownCombat.Characters
       {
         ManagePlayerShortAttack(objectHit);
         ManageNPCShortAttack(objectHit);
-        /*
-        if (objectHit.transform.parent.CompareTag("Player"))
-        {
-          Debug.Log("Close to player");
-        }
-        */
       }
 
       doShortAttack_Player = false;
@@ -146,8 +143,6 @@ namespace TopDownCombat.Characters
         Debug.Log("Attack to enemy");
         shortAttackTimer = 0;
 
-        //ShowShortAttackAnimation();
-
         // do damage
         characterHealth_Victim.TakeDamage(shortAttackDamage);
 
@@ -163,6 +158,7 @@ namespace TopDownCombat.Characters
       if (shortAttackTimer < shortAttackCooldown) return;
 
       shortAttackWeapon.SetActive(true);
+      Debug.Log("shortAttackWeapon.activeSelf: " + shortAttackWeapon.activeSelf);
       StartCoroutine(CoShowShortAttackAnimation());
     }
 
@@ -175,12 +171,11 @@ namespace TopDownCombat.Characters
     private void ManageNPCShortAttack(RaycastHit objectHit)
     {
       // TO DO...
-      if (!doShortAttack_Player) return;
-
       Debug.Log("objectHit.transform.tag: " + objectHit.transform.tag);
 
-      if (objectHit.transform.parent.CompareTag("NPC"))
+      if (objectHit.transform.parent.CompareTag("Player"))
       {
+        ShowShortAttackAnimation();
         CharacterHealth characterHealth_Victim = objectHit.transform.parent.GetComponent<CharacterHealth>();
         DoShortAttack(characterHealth_Victim);
       }
