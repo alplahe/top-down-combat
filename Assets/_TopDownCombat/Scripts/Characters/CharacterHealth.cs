@@ -96,14 +96,9 @@ namespace TopDownCombat.Characters
       character.Health = health;
 
       float currentHealthPercentage = (float)health / (float)maxHealth;
-      Messenger.Broadcast<float, int>(BroadcastName.Health.OnHealthPercentageChanged, currentHealthPercentage, gameObject.GetInstanceID());
-      /*
-      if (health <= minHealth)
-      {
-        health = minHealth;
-        Die();
-      }
-      */
+      Messenger.Broadcast<float, int>(BroadcastName.Health.OnHealthPercentageChanged, 
+                                      currentHealthPercentage, gameObject.GetInstanceID());
+      
       return true;
     }
 
@@ -122,7 +117,12 @@ namespace TopDownCombat.Characters
       }
       else if (characterType == CharacterType.NPC)
       {
-        Messenger.Broadcast(BroadcastName.Health.OnNPCDie);
+        Messenger.Broadcast<int>(BroadcastName.Health.OnNPCDie, character.gameObject.GetInstanceID());
+        if (isInited)
+        {
+          RemoveListeners();
+          isInited = false;
+        }
       }
 
       return true;

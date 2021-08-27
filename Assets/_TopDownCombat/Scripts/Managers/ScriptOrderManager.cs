@@ -18,6 +18,7 @@ namespace TopDownCombat
     [SerializeField] private HierarchyManager hierarchyManager;
     [SerializeField] private FlowManager flowManager;
     [SerializeField] private SceneName currentSceneName;
+    [SerializeField] private SpawnerManager spawnerManager;
 
     private void Start()
     {
@@ -52,6 +53,15 @@ namespace TopDownCombat
       else
       {
         flowManager.Init();
+      }
+
+      if (spawnerManager == null)
+      {
+        Debug.Log("SpawnerManager is NULL!");
+      }
+      else
+      {
+        spawnerManager.Init();
       }
     }
   }

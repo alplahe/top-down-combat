@@ -29,13 +29,13 @@ namespace TopDownCombat
     private void AddListeners()
     {
       Messenger.AddListener(BroadcastName.Health.OnPlayerDie, OnPlayerDie);
-      Messenger.AddListener(BroadcastName.Health.OnNPCDie, OnNPCDie);
+      Messenger.AddListener<int>(BroadcastName.Health.OnNPCDie, OnNPCDie);
     }
 
     private void RemoveListeners()
     {
       Messenger.RemoveListener(BroadcastName.Health.OnPlayerDie, OnPlayerDie);
-      Messenger.RemoveListener(BroadcastName.Health.OnNPCDie, OnNPCDie);
+      Messenger.RemoveListener<int>(BroadcastName.Health.OnNPCDie, OnNPCDie);
     }
 
     private void OnDestroy()
@@ -54,12 +54,11 @@ namespace TopDownCombat
       Messenger.Broadcast(BroadcastName.Game.OnReturnToInitialScreen);
     }
 
-    private void OnNPCDie()
+    private void OnNPCDie(int npcInstanceID)
     {
-      //Messenger.Broadcast(BroadcastName.Game.OnGameOver);
-      //Messenger.Broadcast(BroadcastName.Game.OnReturnToInitialScreen);
-
       // TO DO...
+      Messenger.Broadcast(BroadcastName.Spawner.OnSpawnerOneNPC);
+      Messenger.Broadcast(BroadcastName.Spawner.OnSpawnerOneNPC);
     }
   }
 }

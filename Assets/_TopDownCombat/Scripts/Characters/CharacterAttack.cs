@@ -26,7 +26,7 @@ namespace TopDownCombat.Characters
 
     private float shortAttackTimer;
     private bool doShortAttack_Player = false;
-    private float shortAttackAnimationDuration = 0.2f; // Must always be a less value than shortAttackCooldown
+    private float shortAttackAnimationDuration; // Must always be a lower value than shortAttackCooldown
 
     private int longAttackDamage;
     private float longAttackShotFrecuency;
@@ -47,6 +47,7 @@ namespace TopDownCombat.Characters
     public int ShortAttackDamage { get => shortAttackDamage; set => shortAttackDamage = value; }
     public float ShortAttackCooldown { get => shortAttackCooldown; set => shortAttackCooldown = value; }
     public float ShortAttackStoppingDistance_NPC { get => shortAttackStoppingDistance_NPC; set => shortAttackStoppingDistance_NPC = value; }
+    public float ShortAttackAnimationDuration { get => shortAttackAnimationDuration; set => shortAttackAnimationDuration = value; }
 
     public int LongAttackDamage { get => longAttackDamage; set => longAttackDamage = value; }
     public float LongAttackShotFrecuency { get => longAttackShotFrecuency; set => longAttackShotFrecuency = value; }

@@ -50,6 +50,7 @@ namespace TopDownCombat.Characters
     [SerializeField] private int shortAttackDamage;
     [SerializeField] private float shortAttackCooldown;
     [SerializeField] private float shortAttackStoppingDistance_NPC;
+    [SerializeField] private float shortAttackAnimationDuration; // Must always be a lower value than shortAttackCooldown
 
     [Header("Long attack")]
     [SerializeField] private int longAttackDamage;
@@ -65,6 +66,11 @@ namespace TopDownCombat.Characters
     #endregion
 
     private void Awake()
+    {
+      //PreInit();
+    }
+
+    public void PreInit()
     {
       characterMovement = GetComponent<CharacterMovement>();
       if (characterMovement == null) Debug.Log("characterMovement is NULL!");
@@ -88,10 +94,10 @@ namespace TopDownCombat.Characters
 
     private void Start()
     {
-      Init();
+      //Init();
     }
 
-    private void Init()
+    public void Init()
     {
       characterMovement.Init();
       characterHealth.Init();
@@ -135,6 +141,7 @@ namespace TopDownCombat.Characters
       characterAttack.ShortAttackDamage = shortAttackDamage;
       characterAttack.ShortAttackCooldown = shortAttackCooldown;
       characterAttack.ShortAttackStoppingDistance_NPC = shortAttackStoppingDistance_NPC;
+      characterAttack.ShortAttackAnimationDuration = shortAttackAnimationDuration;
 
       characterAttack.LongAttackDamage = longAttackDamage;
       characterAttack.LongAttackShotFrecuency = longAttackShotFrecuency;

@@ -73,5 +73,12 @@ namespace TopDownCombat
       public static string OnAllNPCsOfWaveDie = prefix + "OnAllNPCsOfWaveDie";
       public static string OnAllWavesEnd = prefix + "OnAllWavesEnd";
     }
+
+    public class Spawner
+    {
+      public static string prefix = "Spawner_";
+
+      public static string OnSpawnerOneNPC = prefix + "OnSpawnerOneNPC";
+    }
   }
 }
